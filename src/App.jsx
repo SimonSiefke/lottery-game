@@ -50,12 +50,7 @@ const Field = ({
   </li>
 )
 
-const FieldsAndReset = ({
-  selectField,
-  unSelectField,
-  resetFields,
-  selectedFields,
-}) => {
+const Fields = ({ selectField, unSelectField, selectedFields }) => {
   const [gameId] = useState(`G-${Math.random()}`.slice(0, 8))
   const [activeIndex, setActiveIndex] = useState(0)
   const maybeToggleField = (field) => {
@@ -67,9 +62,6 @@ const FieldsAndReset = ({
       selectField(field)
       return
     }
-  }
-  const handleResetClick = (event) => {
-    resetFields()
   }
 
   const handleFieldsKeyDown = (event) => {
@@ -128,35 +120,30 @@ const FieldsAndReset = ({
     maybeToggleField(field)
   }
   return (
-    <div className="FieldsAndReset">
-      <ol
-        className="Fields"
-        onKeyDown={handleFieldsKeyDown}
-        role="listbox"
-        aria-multiselectable="true"
-        aria-label="Fields"
-        tabIndex={0}
-        id={gameId}
-        aria-activedescendant={`${gameId}-I-${activeIndex}`}
-      >
-        {FIELDS.map((field, index) => (
-          <Field
-            isSelected={selectedFields.has(field)}
-            isFocused={index === activeIndex}
-            isDisabled={selectedFields.size === 6 && !selectedFields.has(field)}
-            key={index}
-            onClick={() => handleFieldClick(field, index)}
-            gameId={gameId}
-            index={index}
-          >
-            {field}
-          </Field>
-        ))}
-      </ol>
-      <button type="reset" onClick={handleResetClick} className="ButtonReset">
-        Reset
-      </button>
-    </div>
+    <ol
+      className="Fields"
+      onKeyDown={handleFieldsKeyDown}
+      role="listbox"
+      aria-multiselectable="true"
+      aria-label="Fields"
+      tabIndex={0}
+      id={gameId}
+      aria-activedescendant={`${gameId}-I-${activeIndex}`}
+    >
+      {FIELDS.map((field, index) => (
+        <Field
+          isSelected={selectedFields.has(field)}
+          isFocused={index === activeIndex}
+          isDisabled={selectedFields.size === 6 && !selectedFields.has(field)}
+          key={index}
+          onClick={() => handleFieldClick(field, index)}
+          gameId={gameId}
+          index={index}
+        >
+          {field}
+        </Field>
+      ))}
+    </ol>
   )
 }
 
@@ -169,6 +156,9 @@ const App = () => {
   } = useLotteryGame()
   const handleContinueClick = (event) => {
     alert('Continue ' + JSON.stringify(Array.from(selectedFields)))
+  }
+  const handleResetClick = (event) => {
+    resetFields()
   }
   return (
     <div className="App">
@@ -184,12 +174,47 @@ const App = () => {
             Back
           </button>
         </div>
-        <FieldsAndReset
-          selectField={selectField}
-          unSelectField={unSelectField}
-          resetFields={resetFields}
-          selectedFields={selectedFields}
-        />
+        <div className="FieldsFormMiddle">
+          <Fields
+            selectField={selectField}
+            selectedFields={selectedFields}
+            unSelectField={unSelectField}
+          />
+          <div className="FieldsBottomSmall">
+            <button
+              type="button"
+              className="ButtonBack"
+              onClick={handleContinueClick}
+              disabled={true}
+            >
+              Back
+            </button>
+            <button
+              type="reset"
+              onClick={handleResetClick}
+              className="ButtonReset"
+            >
+              Reset
+            </button>
+            <button
+              type="button"
+              className="ButtonContinue"
+              onClick={handleContinueClick}
+              disabled={selectedFields.size < 6}
+            >
+              Continue
+            </button>
+          </div>
+          <div className="FieldsBottom">
+            <button
+              type="reset"
+              onClick={handleResetClick}
+              className="ButtonReset"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
         <div className="FieldsFormRight">
           <button
             type="button"
