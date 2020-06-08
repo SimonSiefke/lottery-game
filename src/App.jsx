@@ -1,4 +1,4 @@
-import { range } from 'lodash-es'
+import { range, sortBy } from 'lodash-es'
 import React, { useState } from 'react'
 import './App.css'
 
@@ -148,6 +148,8 @@ const Fields = ({ selectField, unSelectField, selectedFields }) => {
 }
 
 const App = () => {
+  /* vite doesn't support react router yet so this will do for now */
+  const [page, setPage] = useState('/')
   const {
     selectField,
     unSelectField,
@@ -155,7 +157,7 @@ const App = () => {
     resetFields,
   } = useLotteryGame()
   const handleContinueClick = (event) => {
-    alert('Continue ' + JSON.stringify(Array.from(selectedFields)))
+    setPage('/confirm')
   }
   const handleResetClick = (event) => {
     resetFields()
@@ -163,24 +165,9 @@ const App = () => {
   return (
     <div className="App">
       <h1>Lottery Game</h1>
-      <form className="FieldsForm">
-        <div className="FieldsFormLeft">
-          <button
-            type="button"
-            className="ButtonBack"
-            onClick={handleContinueClick}
-            disabled={true}
-          >
-            Back
-          </button>
-        </div>
-        <div className="FieldsFormMiddle">
-          <Fields
-            selectField={selectField}
-            selectedFields={selectedFields}
-            unSelectField={unSelectField}
-          />
-          <div className="FieldsBottomSmall">
+      {page === '/' ? (
+        <form className="FieldsForm">
+          <div className="FieldsFormLeft">
             <button
               type="button"
               className="ButtonBack"
@@ -189,13 +176,49 @@ const App = () => {
             >
               Back
             </button>
-            <button
-              type="reset"
-              onClick={handleResetClick}
-              className="ButtonReset"
-            >
-              Reset
-            </button>
+          </div>
+          <div className="FieldsFormMiddle">
+            <Fields
+              selectField={selectField}
+              selectedFields={selectedFields}
+              unSelectField={unSelectField}
+            />
+            <div className="FieldsBottomSmall">
+              <button
+                type="button"
+                className="ButtonBack"
+                onClick={handleContinueClick}
+                disabled={true}
+              >
+                Back
+              </button>
+              <button
+                type="reset"
+                onClick={handleResetClick}
+                className="ButtonReset"
+              >
+                Reset
+              </button>
+              <button
+                type="button"
+                className="ButtonContinue"
+                onClick={handleContinueClick}
+                disabled={selectedFields.size < 6}
+              >
+                Continue
+              </button>
+            </div>
+            <div className="FieldsBottom">
+              <button
+                type="reset"
+                onClick={handleResetClick}
+                className="ButtonReset"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+          <div className="FieldsFormRight">
             <button
               type="button"
               className="ButtonContinue"
@@ -205,27 +228,19 @@ const App = () => {
               Continue
             </button>
           </div>
-          <div className="FieldsBottom">
-            <button
-              type="reset"
-              onClick={handleResetClick}
-              className="ButtonReset"
-            >
-              Reset
-            </button>
-          </div>
+        </form>
+      ) : page === '/confirm' ? (
+        <div>
+          <>
+            <h2>Your numbers are:</h2>
+            {sortBy(Array.from(selectedFields)).map((field) => (
+              <p key={field}>{field}</p>
+            ))}
+          </>
         </div>
-        <div className="FieldsFormRight">
-          <button
-            type="button"
-            className="ButtonContinue"
-            onClick={handleContinueClick}
-            disabled={selectedFields.size < 6}
-          >
-            Continue
-          </button>
-        </div>
-      </form>
+      ) : (
+        <div>404</div>
+      )}
     </div>
   )
 }
