@@ -1,1 +1,5 @@
-Fuer die Anwendung habe ich VSCode und die Prettier Extension fuer VSCode verwendet, die ich geschrieben habe (unterstuezt auch svelte)
+# Lottery Game
+
+![Demo](./demo.png)
+
+Demo: https://lottery-game-2.netlify.app
