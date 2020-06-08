@@ -174,7 +174,16 @@ const App = () => {
     <div className="App">
       <h1>Lottery Game</h1>
       <form className="FieldsForm">
-        <div className="FieldsFormLeft"></div>
+        <div className="FieldsFormLeft">
+          <button
+            type="button"
+            className="ButtonBack"
+            onClick={handleContinueClick}
+            disabled={true}
+          >
+            Back
+          </button>
+        </div>
         <FieldsAndReset
           selectField={selectField}
           unSelectField={unSelectField}

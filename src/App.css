@@ -136,7 +136,8 @@ h1 {
   justify-content: center;
 }
 
-.ButtonContinue {
+.ButtonContinue,
+.ButtonBack {
   text-indent: -10000px;
   width: var(--ButtonSize);
   height: var(--ButtonSize);
@@ -148,25 +149,35 @@ h1 {
   transform: translateY(-25px); /* Center with fields */
 }
 
-.ButtonContinue:disabled {
+.ButtonContinue:disabled,
+.ButtonBack:disabled {
   opacity: 0.3;
 }
 
-.Keyboard .ButtonContinue:focus {
+.Keyboard .ButtonContinue:focus,
+.Keyboard .ButtonBack:focus {
   border-color: var(--FocusOutlineColor);
 }
 
 .ButtonContinue::before {
   background: url(/assets/ArrowRight.svg);
+}
+
+.ButtonBack:before {
+  background: url(/assets/ArrowLeft.svg);
+}
+
+.ButtonContinue::before,
+.ButtonBack::before {
   width: 100%;
   height: 100%;
   content: '';
   display: block;
-  background-repeat: no-repeat;
   position: absolute;
   top: 15%;
   left: 15%;
   background-size: 70% 70%;
+  background-repeat: no-repeat;
 }
 
 .ButtonReset {
