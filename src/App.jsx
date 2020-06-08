@@ -156,6 +156,7 @@ const App = () => {
                 key={index}
                 onClick={() => handleFieldClick(field, index)}
                 gameId={gameId}
+                index={index}
               >
                 {field}
               </Field>
