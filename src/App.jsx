@@ -119,7 +119,7 @@ const App = () => {
   }
   return (
     <div className="App">
-      <h1>Game</h1>
+      <h1>Lottery Game</h1>
       <form className="FieldsForm">
         <div className="FieldsAndReset">
           <ol
