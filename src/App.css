@@ -23,10 +23,32 @@ button::-moz-focus-inner {
   --FieldBackground: #eff3f8;
   --BoxShadowAround: 0px 3px 5px rgba(0, 0, 0, 0.1);
   --FocusOutlineColor: #02285a;
+  --FieldsFormSideWidth: 40px;
+  --FieldSize: 32px;
+  --FieldsPadding: 10px;
+  --FieldGap: 6px;
+  --FontSize: 14px;
+  --ButtonSize: 35px;
+}
+
+@media screen and (min-width: 420px) {
+  :root {
+    --FieldSize: 35px;
+    --FieldsPadding: 15px;
+    --FieldGap: 8px;
+    --FieldsFormSideWidth: 48px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  :root {
+    --FieldSize: 50px;
+  }
 }
 
 body {
   background: var(--BackGround);
+  font-size: var(--FontSize);
 }
 
 .App {
@@ -48,30 +70,16 @@ h1 {
   flex-direction: column;
   box-shadow: var(--BoxShadowAround);
   background: white;
-  padding: 15px;
+  padding: var(--FieldsPadding);
 }
 
 .Fields {
-  --FieldSize: 35px;
-  --FieldGap: 8px;
   display: grid;
   grid-template-columns: repeat(7, var(--FieldSize));
   grid-template-rows: repeat(7, var(--FieldSize));
   gap: var(--FieldGap);
   outline: none;
   touch-action: manipulation; /* disable double tap zoom */
-}
-
-@media screen and (min-width: 400px) {
-  .Fields {
-    --FieldSize: 40px;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .Fields {
-    --FieldSize: 50px;
-  }
 }
 
 .Field {
@@ -122,7 +130,7 @@ h1 {
 
 .FieldsFormLeft,
 .FieldsFormRight {
-  width: 60px;
+  width: var(--FieldsFormSideWidth);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -130,8 +138,8 @@ h1 {
 
 .ButtonContinue {
   text-indent: -10000px;
-  width: 40px;
-  height: 40px;
+  width: var(--ButtonSize);
+  height: var(--ButtonSize);
   background: #2c78ff;
   position: relative;
   border-radius: 50%;
@@ -164,10 +172,11 @@ h1 {
 .ButtonReset {
   background: var(--ButtonResetBackground);
   align-self: start;
-  padding: 10px;
+  padding: 0 10px;
   border-radius: 10px;
   margin-top: 15px;
   border: 1px solid;
+  height: var(--ButtonSize);
 }
 
 .ButtonReset:hover,
