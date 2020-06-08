@@ -54,6 +54,7 @@ h1 {
   grid-template-rows: repeat(7, var(--FieldSize));
   gap: var(--FieldGap);
   outline: none;
+  touch-action: manipulation; /* disable double tap zoom */
 }
 
 @media screen and (min-width: 400px) {
