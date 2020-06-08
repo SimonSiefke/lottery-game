@@ -1,13 +1,12 @@
+import { range } from 'lodash-es'
 import React, { useState } from 'react'
 import './App.css'
-import { range } from 'lodash-es'
 
 const GRID_SIZE = 7
 const FIELDS = range(1, GRID_SIZE ** 2 + 1)
 
-const useSelectedFields = () => {
+const useLotteryGame = () => {
   const [selectedFields, setSelectedFields] = useState(new Set())
-
   const selectField = (field) => {
     const selectedFieldsArray = [...selectedFields, field]
     setSelectedFields(new Set(selectedFieldsArray))
@@ -18,14 +17,14 @@ const useSelectedFields = () => {
     )
     setSelectedFields(new Set(selectedFieldsArray))
   }
-  const resetSelectedFields = () => {
+  const resetFields = () => {
     setSelectedFields(new Set())
   }
   return {
     selectField,
     unSelectField,
     selectedFields,
-    resetSelectedFields,
+    resetFields,
   }
 }
 
@@ -51,14 +50,13 @@ const Field = ({
   </li>
 )
 
-const App = () => {
+const FieldsAndReset = ({
+  selectField,
+  unSelectField,
+  resetFields,
+  selectedFields,
+}) => {
   const [gameId] = useState(`G-${Math.random()}`.slice(0, 8))
-  const {
-    selectField,
-    unSelectField,
-    selectedFields,
-    resetSelectedFields,
-  } = useSelectedFields()
   const [activeIndex, setActiveIndex] = useState(0)
   const maybeToggleField = (field) => {
     if (selectedFields.has(field)) {
@@ -71,11 +69,9 @@ const App = () => {
     }
   }
   const handleResetClick = (event) => {
-    resetSelectedFields()
+    resetFields()
   }
-  const handleContinueClick = (event) => {
-    alert('Continue')
-  }
+
   const handleFieldsKeyDown = (event) => {
     switch (event.key) {
       case 'ArrowLeft': {
@@ -132,44 +128,58 @@ const App = () => {
     maybeToggleField(field)
   }
   return (
+    <div className="FieldsAndReset">
+      <ol
+        className="Fields"
+        onKeyDown={handleFieldsKeyDown}
+        role="listbox"
+        aria-multiselectable="true"
+        aria-label="Fields"
+        tabIndex={0}
+        id={gameId}
+        aria-activedescendant={`${gameId}-I-${activeIndex}`}
+      >
+        {FIELDS.map((field, index) => (
+          <Field
+            isSelected={selectedFields.has(field)}
+            isFocused={index === activeIndex}
+            isDisabled={selectedFields.size === 6 && !selectedFields.has(field)}
+            key={index}
+            onClick={() => handleFieldClick(field, index)}
+            gameId={gameId}
+            index={index}
+          >
+            {field}
+          </Field>
+        ))}
+      </ol>
+      <button type="reset" onClick={handleResetClick} className="ButtonReset">
+        Reset
+      </button>
+    </div>
+  )
+}
+
+const App = () => {
+  const {
+    selectField,
+    unSelectField,
+    selectedFields,
+    resetFields,
+  } = useLotteryGame()
+  const handleContinueClick = (event) => {
+    alert('Continue ' + JSON.stringify(Array.from(selectedFields)))
+  }
+  return (
     <div className="App">
       <h1>Lottery Game</h1>
       <form className="FieldsForm">
-        <div className="FieldsAndReset">
-          <ol
-            className="Fields"
-            onKeyDown={handleFieldsKeyDown}
-            role="listbox"
-            aria-multiselectable="true"
-            aria-label="Felder"
-            tabIndex={0}
-            id={gameId}
-            aria-activedescendant={`${gameId}-I-${activeIndex}`}
-          >
-            {FIELDS.map((field, index) => (
-              <Field
-                isSelected={selectedFields.has(field)}
-                isFocused={index === activeIndex}
-                isDisabled={
-                  selectedFields.size === 6 && !selectedFields.has(field)
-                }
-                key={index}
-                onClick={() => handleFieldClick(field, index)}
-                gameId={gameId}
-                index={index}
-              >
-                {field}
-              </Field>
-            ))}
-          </ol>
-          <button
-            type="reset"
-            onClick={handleResetClick}
-            className="ButtonReset"
-          >
-            Reset
-          </button>
-        </div>
+        <FieldsAndReset
+          selectField={selectField}
+          unSelectField={unSelectField}
+          resetFields={resetFields}
+          selectedFields={selectedFields}
+        />
         <button
           type="button"
           className="ButtonContinue"
