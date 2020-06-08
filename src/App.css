@@ -210,8 +210,15 @@ h1 {
   }
 }
 
+@media screen and (min-width: 500px) {
+  :root {
+    --FieldsFormSideWidth: 60px;
+  }
+}
+
 @media screen and (min-width: 768px) {
   :root {
     --FieldSize: 50px;
+    --FontSize: 16px;
   }
 }
