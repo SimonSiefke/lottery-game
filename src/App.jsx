@@ -29,10 +29,30 @@ const useSelectedFields = () => {
   }
 }
 
-const getFieldIndex = ($field) => parseInt($field.dataset.index)
+const Field = ({
+  index,
+  children,
+  isSelected,
+  isFocused,
+  isDisabled,
+  gameId,
+  onClick,
+}) => (
+  <li
+    role="option"
+    className="Field"
+    aria-selected={isSelected}
+    data-focused={isFocused}
+    id={`${gameId}-I-${index}`}
+    aria-disabled={isDisabled}
+    onClick={onClick}
+  >
+    {children}
+  </li>
+)
 
 const App = () => {
-  const [id] = useState(`G-${Math.random()}`.slice(0, 8))
+  const [gameId] = useState(`G-${Math.random()}`.slice(0, 8))
   const {
     selectField,
     unSelectField,
@@ -49,16 +69,6 @@ const App = () => {
       selectField(field)
       return
     }
-  }
-  const handleFieldsClick = (event) => {
-    const $target = event.target
-    if ($target.className !== 'Field') {
-      return
-    }
-    const index = getFieldIndex($target)
-    const field = FIELDS[index]
-    setActiveIndex(index)
-    maybeToggleField(field)
   }
   const handleResetClick = (event) => {
     resetSelectedFields()
@@ -117,6 +127,10 @@ const App = () => {
       }
     }
   }
+  const handleFieldClick = (field, index) => {
+    setActiveIndex(index)
+    maybeToggleField(field)
+  }
   return (
     <div className="App">
       <h1>Lottery Game</h1>
@@ -124,30 +138,27 @@ const App = () => {
         <div className="FieldsAndReset">
           <ol
             className="Fields"
-            onPointerDown={handleFieldsClick}
             onKeyDown={handleFieldsKeyDown}
             role="listbox"
             aria-multiselectable="true"
             aria-label="Felder"
             tabIndex={0}
-            id={id}
-            aria-activedescendant={`${id}-I-${activeIndex}`}
+            id={gameId}
+            aria-activedescendant={`${gameId}-I-${activeIndex}`}
           >
             {FIELDS.map((field, index) => (
-              <li
-                role="option"
-                key={index}
-                className="Field"
-                aria-selected={selectedFields.has(field)}
-                data-index={index}
-                data-focused={index === activeIndex}
-                id={`${id}-I-${index}`}
-                aria-disabled={
+              <Field
+                isSelected={selectedFields.has(field)}
+                isFocused={index === activeIndex}
+                isDisabled={
                   selectedFields.size === 6 && !selectedFields.has(field)
                 }
+                key={index}
+                onClick={() => handleFieldClick(field, index)}
+                gameId={gameId}
               >
                 {field}
-              </li>
+              </Field>
             ))}
           </ol>
           <button
