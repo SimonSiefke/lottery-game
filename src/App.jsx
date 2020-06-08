@@ -174,20 +174,23 @@ const App = () => {
     <div className="App">
       <h1>Lottery Game</h1>
       <form className="FieldsForm">
+        <div className="FieldsFormLeft"></div>
         <FieldsAndReset
           selectField={selectField}
           unSelectField={unSelectField}
           resetFields={resetFields}
           selectedFields={selectedFields}
         />
-        <button
-          type="button"
-          className="ButtonContinue"
-          onClick={handleContinueClick}
-          disabled={selectedFields.size < 6}
-        >
-          Continue
-        </button>
+        <div className="FieldsFormRight">
+          <button
+            type="button"
+            className="ButtonContinue"
+            onClick={handleContinueClick}
+            disabled={selectedFields.size < 6}
+          >
+            Continue
+          </button>
+        </div>
       </form>
     </div>
   )
