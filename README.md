@@ -7,7 +7,7 @@
 ## Quickstart 🚀
 
 ```sh
-git@github.com:SimonSiefke/lottery-game.git &&
+git clone git@github.com:SimonSiefke/lottery-game.git &&
 cd lottery-game &&
 npm install &&
 npm run dev
