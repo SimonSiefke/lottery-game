@@ -4,7 +4,7 @@
 
 > Demo: https://lottery-game-2.netlify.app
 
-## Quickstart
+## Quickstart 🚀
 
 ```sh
 git@github.com:SimonSiefke/lottery-game.git &&
