@@ -230,12 +230,16 @@ const App = () => {
           </div>
         </form>
       ) : page === '/confirm' ? (
-        <div>
+        <div className="ConfirmNumbers">
           <>
             <h2>Your numbers are:</h2>
-            {sortBy(Array.from(selectedFields)).map((field) => (
-              <p key={field}>{field}</p>
-            ))}
+            <p>
+              {sortBy(Array.from(selectedFields)).map((field) => (
+                <span className="ConfirmNumber" key={field}>
+                  {field}
+                </span>
+              ))}
+            </p>
           </>
         </div>
       ) : (

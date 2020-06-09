@@ -222,3 +222,20 @@ h1 {
     --FontSize: 16px;
   }
 }
+
+.ConfirmNumbers {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  box-shadow: var(--BoxShadowAround);
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.ConfirmNumber {
+  padding: 8px;
+  border-radius: 50%;
+  background: var(--FieldBackground);
+  margin: 0 5px;
+}
