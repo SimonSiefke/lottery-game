@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "vite": "^0.20.7",
-    "vite-plugin-react": "^2.0.3"
+    "vite-plugin-react": "^3.0.0"
   },
   "renovate": {
     "extends": "bitworkers"
